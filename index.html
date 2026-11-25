@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MWALIMU DOCS - Documents za kitaaluma kwa walimu Tanzania.">
+  <title>MWALIMU DOCS | Documents za Walimu</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      color: #172b4d;
+      background: #f7f9fc;
+      line-height: 1.6;
+    }
+    header {
+      background: white;
+      padding: 18px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 12px #0000000a;
+    }
+    .logo { font-size: 23px; font-weight: 800; color: #123b70; }
+    .logo span { color: #159b76; }
+    nav a {
+      text-decoration: none;
+      color: #34445c;
+      margin-left: 22px;
+      font-size: 14px;
+    }
+    .hero {
+      padding: 75px 7%;
+      text-align: center;
+      background: linear-gradient(130deg, #103967, #176a83);
+      color: white;
+    }
+    .hero h1 { font-size: clamp(30px, 5vw, 48px); margin-bottom: 14px; }
+    .hero p { color: #e1edf6; margin-bottom: 28px; }
+    .search {
+      max-width: 580px;
+      margin: auto;
+      display: flex;
+      background: white;
+      padding: 6px;
+      border-radius: 9px;
+    }
+    .search input {
+      flex: 1; min-width: 0; border: 0; outline: none;
+      padding: 13px; font-size: 15px;
+    }
+    .search button {
+      background: #159b76; color: white; border: 0;
+      padding: 12px 20px; border-radius: 7px; cursor: pointer;
+    }
+    section { padding: 55px 7%; }
+    .section-title { text-align: center; margin-bottom: 30px; }
+    .section-title h2 { font-size: 27px; }
+    .section-title p { color: #718096; }
+    .categories, .products {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .category, .product {
+      background: white; border: 1px solid #e8edf3;
+      border-radius: 12px; padding: 25px;
+      transition: .2s;
+    }
+    .category:hover, .product:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px #123b7012;
+    }
+    .symbol { font-size: 32px; margin-bottom: 12px; }
+    .category h3, .product h3 { margin-bottom: 8px; }
+    .category p, .product p { color: #718096; font-size: 14px; }
+    .product small { color: #159b76; font-weight: bold; }
+    .product button {
+      margin-top: 18px; padding: 10px 15px;
+      border: 0; border-radius: 6px;
+      background: #123b70; color: white; cursor: pointer;
+    }
+    .empty { text-align: center; padding: 25px; color: #718096; }
+    .about {
+      background: #eaf2f8; text-align: center;
+    }
+    .about p { max-width: 650px; margin: 12px auto; color: #52647b; }
+    footer {
+      background: #102d50; color: white;
+      text-align: center; padding: 28px 15px;
+    }
+    footer p { font-size: 13px; color: #d3dfeb; }
+    @media(max-width: 700px) {
+      header { padding: 15px 5%; flex-wrap: wrap; gap: 12px; }
+      nav a { margin-left: 10px; font-size: 12px; }
+      .categories, .products { grid-template-columns: 1fr; }
+      .hero { padding: 55px 5%; }
+      section { padding: 40px 5%; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">MWALIMU <span>DOCS</span></div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#documents">Documents</a>
+    <a href="#about">Kuhusu</a>
+  </nav>
+</header>
+
+<div class="hero" id="home">
+  <h1>Documents za Walimu, Rahisi Kupata.</h1>
+  <p>Nunua, lipia na pakua nyaraka zako za kitaaluma popote ulipo.</p>
+  <div class="search">
+    <input id="searchInput" type="text"
+      placeholder="Tafuta Scheme of Work, Lesson Plan...">
+    <button onclick="searchDocuments()">Tafuta</button>
+  </div>
+</div>
+
+<section>
+  <div class="section-title">
+    <h2>Makundi ya Documents</h2>
+    <p>Chagua aina ya document unayohitaji</p>
+  </div>
+  <div class="categories">
+    <div class="category">
+      <div class="symbol">📘</div>
+      <h3>Scheme of Work</h3>
+      <p>Mihtasari ya ufundishaji kwa masomo na madarasa mbalimbali.</p>
+    </div>
+    <div class="category">
+      <div class="symbol">📝</div>
+      <h3>Lesson Plan</h3>
+      <p>Maandalizi ya vipindi vya ufundishaji.</p>
+    </div>
+    <div class="category">
+      <div class="symbol">📚</div>
+      <h3>Logbook</h3>
+      <p>Rekodi na nyaraka za shughuli za mwalimu.</p>
+    </div>
+  </div>
+</section>
+
+<section id="documents">
+  <div class="section-title">
+    <h2>Documents Zetu</h2>
+    <p>Chagua nyaraka zinazokufaa</p>
+  </div>
+  <div class="products" id="productList">
+    <div class="product">
+      <div class="symbol">📘</div>
+      <small>SCHEME OF WORK</small>
+      <h3>Scheme of Work</h3>
+      <p>Documents za masomo mbalimbali na madarasa tofauti.</p>
+      <button onclick="showMessage()">Inakuja hivi karibuni</button>
+    </div>
+    <div class="product">
+      <div class="symbol">📝</div>
+      <small>LESSON PLAN</small>
+      <h3>Lesson Plan</h3>
+      <p>Lesson plans katika PDF na Microsoft Word.</p>
+      <button onclick="showMessage()">Inakuja hivi karibuni</button>
+    </div>
+    <div class="product">
+      <div class="symbol">📚</div>
+      <small>LOGBOOK</small>
+      <h3>Teacher Logbook</h3>
+      <p>Logbooks na rekodi nyingine za kitaaluma.</p>
+      <button onclick="showMessage()">Inakuja hivi karibuni</button>
+    </div>
+  </div>
+  <div class="empty" id="emptyMessage" hidden>
+    Hakuna document iliyopatikana kwa utafutaji huo.
+  </div>
+</section>
+
+<section class="about" id="about">
+  <h2>Karibu MWALIMU DOCS</h2>
+  <p>
+    Jukwaa la kidijitali linalorahisisha walimu kupata
+    documents za kitaaluma kwa urahisi, haraka na kwa
+    gharama nafuu.
+  </p>
+</section>
+
+<footer>
+  <div class="logo" style="color:white">MWALIMU <span>DOCS</span></div>
+  <p>Huduma za Documents za Walimu Tanzania.</p>
+  <p>© 2026 MWALIMU DOCS. All rights reserved.</p>
+</footer>
+
+<script>
+  function searchDocuments() {
+    const query = document.getElementById("searchInput")
+      .value.toLowerCase().trim();
+    const cards = document.querySelectorAll(".product");
+    let found = 0;
+
+    cards.forEach(card => {
+      const match = card.innerText.toLowerCase().includes(query);
+      card.style.display = match ? "" : "none";
+      if (match) found++;
+    });
+
+    document.getElementById("emptyMessage").hidden = found > 0;
+    document.getElementById("documents").scrollIntoView({
+      behavior: "smooth"
+    });
+  }
+
+  document.getElementById("searchInput").addEventListener("input", searchDocuments);
+
+  function showMessage() {
+    alert("Bidhaa zitaanza kupatikana hivi karibuni. Karibu tena!");
+  }
+</script>
+
+</body>
+</html>
