@@ -1,223 +1,415 @@
 
 <!DOCTYPE html>
-<html lang="sw">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="MWALIMU DOCS - Documents za kitaaluma kwa walimu Tanzania.">
-  <title>MWALIMU DOCS | Documents za Walimu</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: Arial, sans-serif;
-      color: #172b4d;
-      background: #f7f9fc;
-      line-height: 1.6;
-    }
-    header {
-      background: white;
-      padding: 18px 7%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 2px 12px #0000000a;
-    }
-    .logo { font-size: 23px; font-weight: 800; color: #123b70; }
-    .logo span { color: #159b76; }
-    nav a {
-      text-decoration: none;
-      color: #34445c;
-      margin-left: 22px;
-      font-size: 14px;
-    }
-    .hero {
-      padding: 75px 7%;
-      text-align: center;
-      background: linear-gradient(130deg, #103967, #176a83);
-      color: white;
-    }
-    .hero h1 { font-size: clamp(30px, 5vw, 48px); margin-bottom: 14px; }
-    .hero p { color: #e1edf6; margin-bottom: 28px; }
-    .search {
-      max-width: 580px;
-      margin: auto;
-      display: flex;
-      background: white;
-      padding: 6px;
-      border-radius: 9px;
-    }
-    .search input {
-      flex: 1; min-width: 0; border: 0; outline: none;
-      padding: 13px; font-size: 15px;
-    }
-    .search button {
-      background: #159b76; color: white; border: 0;
-      padding: 12px 20px; border-radius: 7px; cursor: pointer;
-    }
-    section { padding: 55px 7%; }
-    .section-title { text-align: center; margin-bottom: 30px; }
-    .section-title h2 { font-size: 27px; }
-    .section-title p { color: #718096; }
-    .categories, .products {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-    .category, .product {
-      background: white; border: 1px solid #e8edf3;
-      border-radius: 12px; padding: 25px;
-      transition: .2s;
-    }
-    .category:hover, .product:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 25px #123b7012;
-    }
-    .symbol { font-size: 32px; margin-bottom: 12px; }
-    .category h3, .product h3 { margin-bottom: 8px; }
-    .category p, .product p { color: #718096; font-size: 14px; }
-    .product small { color: #159b76; font-weight: bold; }
-    .product button {
-      margin-top: 18px; padding: 10px 15px;
-      border: 0; border-radius: 6px;
-      background: #123b70; color: white; cursor: pointer;
-    }
-    .empty { text-align: center; padding: 25px; color: #718096; }
-    .about {
-      background: #eaf2f8; text-align: center;
-    }
-    .about p { max-width: 650px; margin: 12px auto; color: #52647b; }
-    footer {
-      background: #102d50; color: white;
-      text-align: center; padding: 28px 15px;
-    }
-    footer p { font-size: 13px; color: #d3dfeb; }
-    @media(max-width: 700px) {
-      header { padding: 15px 5%; flex-wrap: wrap; gap: 12px; }
-      nav a { margin-left: 10px; font-size: 12px; }
-      .categories, .products { grid-template-columns: 1fr; }
-      .hero { padding: 55px 5%; }
-      section { padding: 40px 5%; }
-    }
-  </style>
-</head>
-<body>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MWALIMU DOCS | Scheme of Work Generator</title>
 
+<script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172b4d}
+header{background:#123b70;color:white;padding:18px 6%;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:23px;font-weight:bold}
+.logo span{color:#35c69a}
+.container{max-width:900px;margin:35px auto;padding:0 18px}
+.card{background:white;padding:25px;border-radius:12px;box-shadow:0 3px 15px #0000000a;margin-bottom:20px}
+h1,h2,h3{margin-top:0}
+.subtitle{color:#718096}
+.steps{display:flex;justify-content:space-between;margin:25px 0;gap:5px}
+.step{flex:1;text-align:center;padding:12px 3px;border-bottom:4px solid #dce3ed;color:#8491a3;font-size:13px}
+.step.active{border-color:#159b76;color:#123b70;font-weight:bold}
+label{display:block;font-weight:bold;margin:15px 0 6px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #d5deea;border-radius:7px;font-size:15px}
+textarea{min-height:75px;resize:vertical}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{padding:12px 20px;border:0;border-radius:7px;background:#123b70;color:white;font-size:15px;cursor:pointer}
+button:hover{opacity:.9}
+.green{background:#159b76}
+.secondary{background:#e8eef5;color:#123b70}
+.actions{display:flex;justify-content:space-between;gap:10px;margin-top:25px;flex-wrap:wrap}
+.topic{border:1px solid #dce5ef;border-radius:10px;padding:18px;margin:18px 0}
+.topic h3{color:#159b76}
+.hidden{display:none}
+table{border-collapse:collapse;width:100%;font-size:11px}
+th,td{border:1px solid #aab7c7;padding:7px;text-align:left;vertical-align:top}
+th{background:#dce8f2}
+.preview{overflow-x:auto}
+footer{text-align:center;color:#718096;padding:25px}
+@media(max-width:600px){
+.grid{grid-template-columns:1fr}
+.container{margin:18px auto}
+.card{padding:17px}
+.step{font-size:10px}
+}
+</style>
+</head>
+
+<body>
 <header>
-  <div class="logo">MWALIMU <span>DOCS</span></div>
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#documents">Documents</a>
-    <a href="#about">Kuhusu</a>
-  </nav>
+<div class="logo">MWALIMU <span>DOCS</span></div>
+<div>Teacher Document Generator</div>
 </header>
 
-<div class="hero" id="home">
-  <h1>Documents za Walimu, Rahisi Kupata.</h1>
-  <p>Nunua, lipia na pakua nyaraka zako za kitaaluma popote ulipo.</p>
-  <div class="search">
-    <input id="searchInput" type="text"
-      placeholder="Tafuta Scheme of Work, Lesson Plan...">
-    <button onclick="searchDocuments()">Tafuta</button>
-  </div>
+<div class="container">
+
+<div class="card" id="home">
+<h1>Scheme of Work Generator</h1>
+<p class="subtitle">Create professional teaching documents in minutes.</p>
+<p>Generate your Tanzania TIE-style Scheme of Work without manually formatting tables.</p>
+<button class="green" onclick="start()">Create Scheme of Work →</button>
 </div>
 
-<section>
-  <div class="section-title">
-    <h2>Makundi ya Documents</h2>
-    <p>Chagua aina ya document unayohitaji</p>
-  </div>
-  <div class="categories">
-    <div class="category">
-      <div class="symbol">📘</div>
-      <h3>Scheme of Work</h3>
-      <p>Mihtasari ya ufundishaji kwa masomo na madarasa mbalimbali.</p>
-    </div>
-    <div class="category">
-      <div class="symbol">📝</div>
-      <h3>Lesson Plan</h3>
-      <p>Maandalizi ya vipindi vya ufundishaji.</p>
-    </div>
-    <div class="category">
-      <div class="symbol">📚</div>
-      <h3>Logbook</h3>
-      <p>Rekodi na nyaraka za shughuli za mwalimu.</p>
-    </div>
-  </div>
-</section>
+<div id="wizard" class="hidden">
 
-<section id="documents">
-  <div class="section-title">
-    <h2>Documents Zetu</h2>
-    <p>Chagua nyaraka zinazokufaa</p>
-  </div>
-  <div class="products" id="productList">
-    <div class="product">
-      <div class="symbol">📘</div>
-      <small>SCHEME OF WORK</small>
-      <h3>Scheme of Work</h3>
-      <p>Documents za masomo mbalimbali na madarasa tofauti.</p>
-      <button onclick="showMessage()">Inakuja hivi karibuni</button>
-    </div>
-    <div class="product">
-      <div class="symbol">📝</div>
-      <small>LESSON PLAN</small>
-      <h3>Lesson Plan</h3>
-      <p>Lesson plans katika PDF na Microsoft Word.</p>
-      <button onclick="showMessage()">Inakuja hivi karibuni</button>
-    </div>
-    <div class="product">
-      <div class="symbol">📚</div>
-      <small>LOGBOOK</small>
-      <h3>Teacher Logbook</h3>
-      <p>Logbooks na rekodi nyingine za kitaaluma.</p>
-      <button onclick="showMessage()">Inakuja hivi karibuni</button>
-    </div>
-  </div>
-  <div class="empty" id="emptyMessage" hidden>
-    Hakuna document iliyopatikana kwa utafutaji huo.
-  </div>
-</section>
+<div class="steps">
+<div class="step active" id="s1">1. Teacher</div>
+<div class="step" id="s2">2. Topics</div>
+<div class="step" id="s3">3. Preview</div>
+<div class="step" id="s4">4. Download</div>
+</div>
 
-<section class="about" id="about">
-  <h2>Karibu MWALIMU DOCS</h2>
-  <p>
-    Jukwaa la kidijitali linalorahisisha walimu kupata
-    documents za kitaaluma kwa urahisi, haraka na kwa
-    gharama nafuu.
-  </p>
-</section>
+<!-- PAGE 1 -->
+<div class="card page" id="page1">
+<h2>Page 1: Teacher Information</h2>
+<p class="subtitle">Enter your teaching and school details.</p>
+
+<label>Teacher's Full Name</label>
+<input id="teacher" placeholder="Enter teacher's name">
+
+<label>School Name</label>
+<input id="school" placeholder="Enter school name">
+
+<div class="grid">
+<div>
+<label>Subject</label>
+<input id="subject" placeholder="e.g. Physics">
+</div>
+<div>
+<label>Class / Form</label>
+<select id="class">
+<option value="">Select class</option>
+<option>Form I</option>
+<option>Form II</option>
+<option>Form III</option>
+<option>Form IV</option>
+<option>Form V</option>
+<option>Form VI</option>
+</select>
+</div>
+</div>
+
+<label>Academic Year</label>
+<input id="year" placeholder="e.g. 2027">
+
+<div class="actions">
+<button class="secondary" onclick="home()">Cancel</button>
+<button class="green" onclick="next(2)">Continue →</button>
+</div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="card page hidden" id="page2">
+<h2>Page 2: Teaching Topics</h2>
+<p class="subtitle">Enter the planning information for each topic. Add as many topics as necessary.</p>
+
+<div id="topics"></div>
+
+<button class="green" onclick="addTopic()">+ Add Another Topic</button>
+
+<div class="actions">
+<button class="secondary" onclick="next(1)">← Back</button>
+<button class="green" onclick="makePreview()">Continue →</button>
+</div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="card page hidden" id="page3">
+<h2>Page 3: Document Preview</h2>
+<p class="subtitle">Check your information before generating the document.</p>
+<div id="preview" class="preview"></div>
+
+<div class="actions">
+<button class="secondary" onclick="next(2)">← Edit Topics</button>
+<button class="green" onclick="next(4)">Proceed to Download →</button>
+</div>
+</div>
+
+<!-- PAGE 4 -->
+<div class="card page hidden" id="page4">
+<h2>Page 4: Generate Your Document</h2>
+<p>Your Scheme of Work is ready to be generated as a Microsoft Word document.</p>
+<div id="downloadStatus" class="subtitle"></div>
+
+<button class="green" onclick="downloadWord()">⬇ Generate & Download Word Document</button>
+
+<div class="actions">
+<button class="secondary" onclick="next(3)">← Back to Preview</button>
+<button class="secondary" onclick="home()">Finish</button>
+</div>
+</div>
+
+</div>
+</div>
 
 <footer>
-  <div class="logo" style="color:white">MWALIMU <span>DOCS</span></div>
-  <p>Huduma za Documents za Walimu Tanzania.</p>
-  <p>© 2026 MWALIMU DOCS. All rights reserved.</p>
+MWALIMU DOCS © 2026 | Documents made easier for teachers.
 </footer>
 
 <script>
-  function searchDocuments() {
-    const query = document.getElementById("searchInput")
-      .value.toLowerCase().trim();
-    const cards = document.querySelectorAll(".product");
-    let found = 0;
+let topicCount=0;
 
-    cards.forEach(card => {
-      const match = card.innerText.toLowerCase().includes(query);
-      card.style.display = match ? "" : "none";
-      if (match) found++;
-    });
+function start(){
+document.getElementById("home").classList.add("hidden");
+document.getElementById("wizard").classList.remove("hidden");
+next(1);
+if(!topicCount)addTopic();
+}
 
-    document.getElementById("emptyMessage").hidden = found > 0;
-    document.getElementById("documents").scrollIntoView({
-      behavior: "smooth"
-    });
-  }
+function home(){
+document.getElementById("wizard").classList.add("hidden");
+document.getElementById("home").classList.remove("hidden");
+}
 
-  document.getElementById("searchInput").addEventListener("input", searchDocuments);
+function next(n){
+document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
+document.getElementById("page"+n).classList.remove("hidden");
 
-  function showMessage() {
-    alert("Bidhaa zitaanza kupatikana hivi karibuni. Karibu tena!");
-  }
+for(let i=1;i<=4;i++){
+document.getElementById("s"+i).classList.toggle("active",i<=n);
+}
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function addTopic(){
+topicCount++;
+const id=topicCount;
+const div=document.createElement("div");
+div.className="topic";
+div.id="topic"+id;
+
+div.innerHTML=`
+<h3>TOPIC ${id}</h3>
+
+<label>Topic / Main Competence</label>
+<input class="main" placeholder="Enter main competence or topic">
+
+<label>Specific Competence</label>
+<textarea class="specific" placeholder="Enter specific competence"></textarea>
+
+<label>Learning Activities</label>
+<textarea class="activities" placeholder="What will learners do?"></textarea>
+
+<div class="grid">
+<div>
+<label>Month</label>
+<select class="month">
+<option value="">Select month</option>
+${["January","February","March","April","May","June","July","August","September","October","November","December"].map(m=>`<option>${m}</option>`).join("")}
+</select>
+</div>
+<div>
+<label>Week</label>
+<input class="week" placeholder="e.g. Week 1">
+</div>
+</div>
+
+<div class="grid">
+<div>
+<label>Number of Periods</label>
+<input class="periods" type="number" min="0" placeholder="e.g. 4">
+</div>
+<div>
+<label>Teaching Methods</label>
+<textarea class="methods" placeholder="e.g. Discussion, demonstration"></textarea>
+</div>
+</div>
+
+<label>Teaching / Learning Resources</label>
+<textarea class="resources" placeholder="e.g. Textbooks, charts, laboratory equipment"></textarea>
+
+<label>Assessment</label>
+<textarea class="assessment" placeholder="How will learning be assessed?"></textarea>
+
+<label>References</label>
+<textarea class="references" placeholder="Enter references"></textarea>
+
+<label>Remarks</label>
+<textarea class="remarks" placeholder="Enter remarks"></textarea>
+
+<button class="secondary" onclick="removeTopic(${id})">Remove Topic</button>
+`;
+document.getElementById("topics").appendChild(div);
+}
+
+function removeTopic(id){
+document.getElementById("topic"+id).remove();
+renumber();
+}
+
+function renumber(){
+document.querySelectorAll(".topic").forEach((t,i)=>{
+t.querySelector("h3").textContent="TOPIC "+(i+1);
+});
+}
+
+function getTopics(){
+return [...document.querySelectorAll(".topic")].map(t=>({
+main:t.querySelector(".main").value.trim(),
+specific:t.querySelector(".specific").value.trim(),
+activities:t.querySelector(".activities").value.trim(),
+month:t.querySelector(".month").value,
+week:t.querySelector(".week").value.trim(),
+periods:t.querySelector(".periods").value,
+methods:t.querySelector(".methods").value.trim(),
+resources:t.querySelector(".resources").value.trim(),
+assessment:t.querySelector(".assessment").value.trim(),
+references:t.querySelector(".references").value.trim(),
+remarks:t.querySelector(".remarks").value.trim()
+}));
+}
+
+function makePreview(){
+const teacher=document.getElementById("teacher").value.trim();
+const school=document.getElementById("school").value.trim();
+const subject=document.getElementById("subject").value.trim();
+const cls=document.getElementById("class").value;
+const year=document.getElementById("year").value.trim();
+const topics=getTopics();
+
+if(!teacher||!school||!subject||!cls||!year){
+alert("Please complete all teacher information.");
+next(1);
+return;
+}
+
+if(!topics.length||topics.some(t=>!t.main)){
+alert("Please enter a main competence for every topic.");
+next(2);
+return;
+}
+
+const headings=["Main Competence","Specific Competence","Learning Activities","Month","Week","Periods","Teaching Methods","Teaching/Learning Resources","Assessment","References","Remarks"];
+
+let html=`
+<h2>SCHEME OF WORK</h2>
+<p><b>School:</b> ${escapeHTML(school)}<br>
+<b>Teacher:</b> ${escapeHTML(teacher)}<br>
+<b>Subject:</b> ${escapeHTML(subject)}<br>
+<b>Class:</b> ${escapeHTML(cls)}<br>
+<b>Academic Year:</b> ${escapeHTML(year)}</p>
+<table><thead><tr>${headings.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>`;
+
+topics.forEach((t,i)=>{
+const vals=[t.main,t.specific,t.activities,t.month,t.week,t.periods,t.methods,t.resources,t.assessment,t.references,t.remarks];
+html+=`<tr>${vals.map(v=>`<td>${escapeHTML(v||"")}</td>`).join("")}</tr>`;
+});
+
+html+="</tbody></table>";
+document.getElementById("preview").innerHTML=html;
+next(3);
+}
+
+function escapeHTML(value){
+return String(value).replace(/[&<>"']/g,c=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;',"\'":"&#39;"
+}[c]));
+}
+
+async function downloadWord(){
+const status=document.getElementById("downloadStatus");
+if(!window.docx){
+status.textContent="Word generator could not load. Check your internet connection and try again.";
+return;
+}
+
+status.textContent="Generating your document...";
+
+try{
+const {
+Document,Packer,Paragraph,TextRun,Table,TableRow,TableCell,
+WidthType,AlignmentType,PageOrientation
+}=window.docx;
+
+const teacher=document.getElementById("teacher").value;
+const school=document.getElementById("school").value;
+const subject=document.getElementById("subject").value;
+const cls=document.getElementById("class").value;
+const year=document.getElementById("year").value;
+const topics=getTopics();
+
+const cell=(text,header=false)=>new TableCell({
+width:{size:100,type:WidthType.AUTO},
+shading:header?{fill:"DCE8F2"}:undefined,
+margins:{top:65,bottom:65,left:65,right:65},
+children:[new Paragraph({
+children:[new TextRun({
+text:String(text||""),
+bold:header,
+size:header?15:14
+})]
+})]
+});
+
+const headings=[
+"Main Competence","Specific Competence","Learning Activities",
+"Month","Week","Periods","Teaching Methods",
+"Teaching/Learning Resources","Assessment","References","Remarks"
+];
+
+const rows=[
+new TableRow({children:headings.map(h=>cell(h,true))}),
+...topics.map(t=>new TableRow({children:[
+t.main,t.specific,t.activities,t.month,t.week,t.periods,
+t.methods,t.resources,t.assessment,t.references,t.remarks
+].map(v=>cell(v))}))
+];
+
+const table=new Table({
+rows,
+width:{size:100,type:WidthType.PERCENTAGE},
+});
+
+const doc=new Document({
+sections:[{
+properties:{
+page:{
+size:{orientation:PageOrientation.LANDSCAPE},
+margin:{top:500,bottom:500,left:450,right:450}
+}
+},
+children:[
+new Paragraph({
+alignment:AlignmentType.CENTER,
+children:[new TextRun({text:"SCHEME OF WORK",bold:true,size:28})]
+}),
+new Paragraph({text:""}),
+new Paragraph({children:[new TextRun({text:"School: ",bold:true}),new TextRun(school)]}),
+new Paragraph({children:[new TextRun({text:"Teacher: ",bold:true}),new TextRun(teacher)]}),
+new Paragraph({children:[new TextRun({text:"Subject: ",bold:true}),new TextRun(subject)]}),
+new Paragraph({children:[new TextRun({text:"Class: ",bold:true}),new TextRun(cls)]}),
+new Paragraph({children:[new TextRun({text:"Academic Year: ",bold:true}),new TextRun(year)]}),
+new Paragraph({text:""}),
+table
+]
+}]
+});
+
+const blob=await Packer.toBlob(doc);
+const url=URL.createObjectURL(blob);
+const a=document.createElement("a");
+a.href=url;
+a.download="Mwalimu_Docs_Scheme_of_Work.docx";
+a.click();
+setTimeout(()=>URL.revokeObjectURL(url),3000);
+
+status.textContent="Your Word document has been generated successfully!";
+}catch(e){
+status.textContent="Error generating document: "+e.message;
+}
+}
 </script>
-
 </body>
 </html>
